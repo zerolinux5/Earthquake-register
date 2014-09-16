@@ -41,6 +41,13 @@ public class EarthquakeListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		int layoutID = android.R.layout.simple_list_item_1;
 		aa = new ArrayAdapter<Quake>(getActivity(), layoutID , earthquakes); setListAdapter(aa);
+		
+		Thread t = new Thread(new Runnable() { 
+			public void run() {
+				refreshEarthquakes(); 
+			}
+		});
+		t.start();
 	}
 	
 	public void refreshEarthquakes() { 
@@ -112,6 +119,9 @@ public class EarthquakeListFragment extends ListFragment {
 				}
 			}
 	private void addNewQuake(Quake _quake) {
-		// TODO Add the earthquakes to the array list.
+		// Add the new quake to our list of earthquakes. 
+		earthquakes.add(_quake);
+		// Notify the array adapter of a change.
+		aa.notifyDataSetChanged(); 
 	}
 }
