@@ -1,6 +1,7 @@
 package com.ZeroLinux5.earthquake;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		updateFromPreferences();
 	}
 	
 	@Override
@@ -60,5 +63,22 @@ public class MainActivity extends Activity {
 		// Convert the values to ints.
 		minimumMagnitude = Integer.valueOf(minMagValues[minMagIndex]); 
 		updateFreq = Integer.valueOf(freqValues[freqIndex]);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == SHOW_PREFERENCES)
+			if (resultCode == Activity.RESULT_OK) {
+				updateFromPreferences();
+				FragmentManager fm = getFragmentManager(); 
+				final EarthquakeListFragment earthquakeList = (EarthquakeListFragment)fm.findFragmentById(R.id.EarthquakeListFragment);
+				Thread t = new Thread(new Runnable() { 
+					public void run() {
+						earthquakeList.refreshEarthquakes(); 
+					}
+				});
+				t.start(); 
+			}
 	}
 }

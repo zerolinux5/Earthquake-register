@@ -44,7 +44,7 @@ public class EarthquakeListFragment extends ListFragment {
   }
   
   private static final String TAG = "EARTHQUAKE";
-  private void refreshEarthquakes() {
+  void refreshEarthquakes() {
     // Get the XML
     URL url;
     try {
@@ -126,11 +126,12 @@ public class EarthquakeListFragment extends ListFragment {
   }
 
   private void addNewQuake(Quake _quake) {
-    // Add the new quake to our list of earthquakes.
-    earthquakes.add(_quake);
-
-    // Notify the array adapter of a change.
-    aa.notifyDataSetChanged();
+	  MainActivity earthquakeActivity = (MainActivity)getActivity();
+	  if (_quake.getMagnitude() > earthquakeActivity.minimumMagnitude) {
+	  // Add the new quake to our list of earthquakes. 
+		  earthquakes.add(_quake);
+	  }
+	  // Notify the array adapter of a change.
+	  aa.notifyDataSetChanged(); 
   }
-
 }
