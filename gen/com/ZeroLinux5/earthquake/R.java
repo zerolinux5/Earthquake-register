@@ -16,6 +16,12 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        public static final int magnitude=0x7f0c0001;
+        public static final int magnitude_options=0x7f0c0002;
+        public static final int update_freq_options=0x7f0c0000;
+        public static final int update_freq_values=0x7f0c0003;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
