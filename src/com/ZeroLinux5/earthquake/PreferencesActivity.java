@@ -3,9 +3,12 @@ package com.ZeroLinux5.earthquake;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
@@ -34,6 +37,27 @@ public class PreferencesActivity extends Activity {
 		Context context = getApplicationContext();
 		prefs = PreferenceManager.getDefaultSharedPreferences(context); 
 		updateUIFromPreferences();
+		Button okButton = (Button) findViewById(R.id.okButton); 
+		okButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) { savePreferences(); PreferencesActivity.this.setResult(RESULT_OK); finish();
+			} 
+		});
+		Button cancelButton = (Button) findViewById(R.id.cancelButton); 
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) { PreferencesActivity.this.setResult(RESULT_CANCELED); finish();
+			} 
+		});
+	}
+	
+	private void savePreferences() { 
+		int updateIndex = updateFreqSpinner.getSelectedItemPosition(); 
+		int minMagIndex = magnitudeSpinner.getSelectedItemPosition(); 
+		boolean autoUpdateChecked = autoUpdate.isChecked();
+		Editor editor = prefs.edit(); 
+		editor.putBoolean(PREF_AUTO_UPDATE, autoUpdateChecked); 
+		editor.putInt(PREF_UPDATE_FREQ_INDEX, updateIndex); 
+		editor.putInt(PREF_MIN_MAG_INDEX, minMagIndex); 
+		editor.commit();
 	}
 	
 
